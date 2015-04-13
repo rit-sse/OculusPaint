@@ -20,6 +20,22 @@ function openConnection(){
   socket.on('draw',function(data){
     var start = new THREE.Vector3(data.start.x,data.start.y,data.start.z);
     var end = new THREE.Vector3(data.stop.x,data.stop.y,data.z);
-    drawLine(start,end);
+    drawLine(start,end,data.color);
   });
+
+  socket.on('color',function(data){
+    colorChange(data.color.lhand);
+  });
+
+  socket.on('colorWheel',function(data){
+    if(data.colorWheel){
+      displayColorWheele();
+    }else{
+      hideColorWheele();
+    }
+  });
+}
+
+function sendColor(color){
+  socket.emit('color',color);
 }

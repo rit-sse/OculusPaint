@@ -95,8 +95,9 @@ function initScene() {
   floor.rotation.x = -Math.PI/2; //rotate it to the ground
 
   scene.add(floor);
-
   addColorWheel();
+  colorChange(new THREE.Vector3(-0.7,0.7,-1));
+  controls.move(new THREE.Vector3(2,0,2));
 }
 
 //set up the renderer for the oculous using THREE
@@ -127,5 +128,6 @@ function render() {
     //console.log(state);
   }
   vrrenderer.render( scene, camera );
+  //colorChange(new THREE.Vector3(1,1,1));
   time = Date.now();
 }
