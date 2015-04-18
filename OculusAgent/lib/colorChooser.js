@@ -1,5 +1,9 @@
+//set colorBox to golbal scope
 var colorBox;
 
+/*
+Takes in the postion of your left hand and sends a message with the color
+*/
 function colorChange(lHandPos){
   var children = colorBox.children;
   for(var i=0;i<children.length;i++){
@@ -9,10 +13,12 @@ function colorChange(lHandPos){
      lHandPos.y<wrld_pos.y+0.2 & lHandPos.y>wrld_pos.y-0.2 &
      lHandPos.z<wrld_pos.z+0.2 & lHandPos.z>wrld_pos.z-0.2){
       console.log(children[i].material.color.getHexString());
+      sendColor(children[i].material.color.getHex);
     }
   }
 }
 
+//Adds a color to the color box
 function colorWheelBox(x,y,z,color){
   var boxGeo = new THREE.Geometry();
   boxGeo.vertices.push(new THREE.Vector3(-0.2,  0.2, 0.0));
@@ -35,6 +41,7 @@ function colorWheelBox(x,y,z,color){
   return box;
 }
 
+//adds the color wheel object to the scene
 function addColorWheel(){
   //main box
   var colorBoxGeo = new THREE.Geometry();
@@ -74,10 +81,12 @@ function addColorWheel(){
   colorBox.add(blackBox);
 }
 
+//function for hiding the color wheel
 function hideColorWheele(){
   colorBox.visible = false;
 }
 
+//function for unhiding the colorwheel
 function displayColorWheele(){
   colorBox.visible = true;
 }

@@ -1,7 +1,12 @@
+/*
+start - the start possition for a line as a vector3
+stop - the end position for a line as a vector 3
+color - the color of the line as hex
+*/
+
 function drawLine(start, stop, color){
 
-
-    console.log("Drawing Start: " + start.x + " Stop: " + stop.x);
+    //console.log("Drawing Start: " + start.x + " Stop: " + stop.x);
 
     var geometry = new THREE.Geometry();
     geometry.vertices.push(start);
