@@ -1,5 +1,5 @@
 //uses the built in webVR stuff in the browser
-var controls;
+var controls, hands;
 
 window.addEventListener("load", function(){
   if(navigator.getVRDevices){
@@ -47,6 +47,10 @@ function vrDeviceCallback(vrdevs) {
   }
   fullScreen();
   initScene();
+  hands = new THREE.HandTracking();
+  console.log(hands);
+  addColorWheel();
+  //hideColorWheele();
   initRenderer();
   openConnection();
   render();
@@ -57,7 +61,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(60, 1280 / 800, 0.001, 100);
   camera.position.z = 2;
   scene = new THREE.Scene();
-//  console.log("before");
+  //console.log("before");
   controls = new THREE.KinectControls(camera);
   //console.log("after");
   scene.add(camera);
@@ -68,7 +72,7 @@ function initScene() {
   mesh = new THREE.Mesh(geometry, material);
   //scene.add(mesh);
 
-  // floor
+  //floor
   var segments = 8;
 
   var geoFloor = new THREE.PlaneGeometry(100, 100, segments, segments);
@@ -95,9 +99,6 @@ function initScene() {
   floor.rotation.x = -Math.PI/2; //rotate it to the ground
 
   scene.add(floor);
-  addColorWheel();
-  colorChange(new THREE.Vector3(-0.7,0.7,-1));
-  controls.move(new THREE.Vector3(2,0,2));
 }
 
 //set up the renderer for the oculous using THREE
@@ -118,6 +119,7 @@ function render() {
   mesh.rotation.y += 0.01;
   var state = vrHMDSensor.getState();
   controls.update(Date.now() - time);
+  hands.update();
   if(state.orientation !== null){
     camera.quaternion.set(state.orientation.x,
                           state.orientation.y,

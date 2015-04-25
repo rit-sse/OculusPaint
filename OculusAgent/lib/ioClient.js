@@ -12,20 +12,20 @@ function openConnection(){
   });
 
   socket.on('move',function(data){
-    console.log("moving torso");
-    controls.move(data.move);
+    controls.move(data.Torso);
+    hands.moveHand(data.LHand,data.RHand);
   });
 
-//takes the start, stop, and color out of the data and draws a line
+  //takes the start, stop, and color out of the data and draws a line
   socket.on('draw',function(data){
-    var start = new THREE.Vector3(data.start.x,data.start.y,data.start.z);
-    var end = new THREE.Vector3(data.stop.x,data.stop.y,data.z);
-    drawLine(start,end,data.color);
+    var start = new THREE.Vector3(data[0][0],data[0][1],data[0][2]);
+    var end = new THREE.Vector3(data[1][0],data[1][1],data[1][2]);
+    drawLine(start,end,data[2]);
   });
 
   //calls the function to select a color with the lhand pos
   socket.on('color',function(data){
-    colorChange(data.color.lhand);
+    colorChange(data.color.rhand);
   });
   //toggle color wheel
   socket.on('colorWheel',function(data){
@@ -33,7 +33,7 @@ function openConnection(){
       displayColorWheele();
     }else{
       hideColorWheele();
-    }
+  }
   });
 }
 
