@@ -168,7 +168,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (body.IsTracked)
                 {
                     IReadOnlyDictionary<JointType, Joint> joints = body.Joints;
-                    this.SendBodyParts(joints);
+                    this.SendBodyParts(joints,body);
 
                 }
                     
@@ -176,17 +176,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-       private void SendBodyParts(IReadOnlyDictionary<JointType, Joint> joints){
+       private void SendBodyParts(IReadOnlyDictionary<JointType, Joint> joints,Body body){
            Console.WriteLine("Sending BodyParts");
             bool status = true;
-            BodyPart leftHand = this.GrabJoint(joints, JointType.HandLeft,out status);
-            BodyPart rightHand = this.GrabJoint(joints, JointType.HandRight, out status);
-            BodyPart torso = this.GrabJoint(joints, JointType.SpineBase, out status);
+            BodyPart leftHand = this.GrabJoint(joints, JointType.HandLeft,out status,body);
+            BodyPart rightHand = this.GrabJoint(joints, JointType.HandRight, out status,body);
+            BodyPart torso = this.GrabJoint(joints, JointType.Neck, out status,body);
 
             if (status)
             {
-                MessageBody body = new MessageBody(leftHand, rightHand, torso);
-                Message message = new Message("Kinect1", "Master", body);
+                MessageBody messBody = new MessageBody(leftHand, rightHand, torso);
+                Message message = new Message("Kinect1", "Master", messBody);
                 string send = JsonConvert.SerializeObject(message);
                 try
                 {
@@ -203,9 +203,25 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        private BodyPart GrabJoint(IReadOnlyDictionary<JointType, Joint> joints, JointType jointType, out bool status) {
+        private BodyPart GrabJoint(IReadOnlyDictionary<JointType, Joint> joints, JointType jointType, out bool status, Body body) {
             CameraSpacePoint joint = joints[jointType].Position;
-            BodyPart bP = new BodyPart(joint.X, joint.Y, joint.Z, true);
+            String handState = "true";
+            if (jointType == JointType.HandRight || jointType == JointType.HandLeft)
+            {
+                switch (body.HandRightState)
+                {
+                    case HandState.Closed:
+                        handState = "closed";
+                        break;
+                    case HandState.Open:
+                        handState = "open";
+                        break;
+
+
+                }
+            }
+            
+            BodyPart bP = new BodyPart(joint.X, joint.Y, joint.Z, handState);
             status = true;
             if (joints[JointType.HandTipLeft].TrackingState != TrackingState.Tracked)
             {

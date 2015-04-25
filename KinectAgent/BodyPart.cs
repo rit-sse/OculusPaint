@@ -10,14 +10,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public double x;
         public double y;
         public double z;
-        public Boolean active;
+        public String state;
 
-        public BodyPart(double x, double y, double z, Boolean active)
+        public BodyPart(double x, double y, double z, String state)
         {
             this.x = x;
             this.y = y;
             this.z = z;
-            this.active = active;
+            this.state = state;
         }
 
     }
