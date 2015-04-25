@@ -53,15 +53,16 @@ var tcp_server = net.createServer(function(socket){
 tcp_server.listen(8126);
 
 receivedData = function(data){
+    var buf = new Buffer(data,"base64");
     try {
-        var buf = new Buffer(data,"base64")
-        console.log(buf.substring(1));
-        res = JSON.parse(buf.substring(1));
+	res = JSON.parse("[" + buf.toString().substring(1) + "]");
     }catch(ex){
         console.log("parse error");
+	console.log(buf);
+	console.log(buf.toString().substring(1));
         return;
     }
-    id = res.from;
+    id = res[0].from;
     if(id.substring(0,id.length-1) == "Oculus"){
         console.log("Message from Oculus1");
         console.log("Oculus should only init with the server");
@@ -69,14 +70,14 @@ receivedData = function(data){
     }else if(id.substring(0,id.length-1) == "Kinect" && res.data != ""){
         //log.writeToLog(res);
         if(oculus != null){
-            io.to('oculusPaintRoom').emit('mov',res['data']['Torso'])
-            if(res['data']['RHand']['active']==true){
-                rHand = res['data']['RHand'];
-                newPoint =[RHand.x,RHand.y,RHand.z];
+            io.to('oculusPaintRoom').emit('move',res[0]['data'])
+            if(res[0]['data']['LHand']['active']==true){
+                rHand = res[0]['data']['LHand'];
+                newPoint =[rHand.x,rHand.y,rHand.z];
                 if(lastPoint == null){
                   lastPoint = newPoint;
                 }else{
-                  io.to('oculusPaintRoom').emit('draw',oldPoint,newPoint,color);
+                  io.to('oculusPaintRoom').emit('draw',[lastPoint,newPoint,color]);
                   lastPoint = newPoint;
                 }
             }
