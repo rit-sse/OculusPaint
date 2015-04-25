@@ -1,49 +1,59 @@
 window.addEventListener("load", function(){
   initScene();
   initRenderer();
+  fullScreen();
   openConnection();
   render();
 }, false);
+
+
+function fullScreen(){
+  window.addEventListener("keypress", function(e) {
+      if (e.charCode == 'f'.charCodeAt(0)) {
+          if (renderCanvas.mozRequestFullScreen) {
+              renderCanvas.mozRequestFullScreen();
+          } else if (renderCanvas.webkitRequestFullscreen) {
+              renderCanvas.webkitRequestFullscreen();
+          }
+      }
+  }, false);
+}
 
 //This is were you init the scene
 function initScene() {
   camera = new THREE.PerspectiveCamera(60, 1280 / 800, 0.001, 100);
   scene = new THREE.Scene();
   scene.add(camera);
-  camera.position.z = 1.5;
-  camera.position.y = 0.5;
+  camera.position.z = 2;
+  camera.position.y = 1.5;
   camera.lookAt(new THREE.Vector3(0,0,0));
 
-  var ambient = new THREE.AmbientLight( 0x2277EE );
-  scene.add( ambient );
+  var segments = 8;
 
-  var directionalLight = new THREE.DirectionalLight( 0xffffff );
-  directionalLight.position.set( 0, 1, 0 ).normalize();
-  scene.add( directionalLight );
+  var geoFloor = new THREE.PlaneGeometry(100, 100, segments, segments);
+  var matEven = new THREE.MeshBasicMaterial({
+      color: 0xFFFFFF
+  });
+  var matOdd = new THREE.MeshBasicMaterial({
+      color: 0xFFFFFF
+  });
 
-  // model
+  var materials = [matEven, matOdd];
+  var i;
 
-  var onProgress = function ( xhr ) {
-    if ( xhr.lengthComputable ) {
-      var percentComplete = xhr.loaded / xhr.total * 100;
-      console.log( Math.round(percentComplete, 2) + '% downloaded' );
-    }
-  };
-
-  var onError = function ( xhr ) {
-    console.log("FAIL.");
-  };
+  for( i = 0; i<segments*segments; i ++ ) {
+      var k = i * 2;
+      geoFloor.faces[ k ].materialIndex = i % 2;
+      geoFloor.faces[ k + 1 ].materialIndex = i % 2;
+  }
 
 
-  THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+  var floor = new THREE.Mesh(geoFloor, new THREE.MeshFaceMaterial(materials));
 
-  var loader = new THREE.OBJMTLLoader();
-  loader.load( 'http://127.0.0.1:8000/view/lab.obj', 'http://127.0.0.1:8000/view/lab.mtl', function ( object ) {
+  floor.position.y = -1.9;//make it on the ground
+  floor.rotation.x = -Math.PI/2; //rotate it to the ground
 
-    object.position.y =  -2;
-    scene.add( object );
-
-  }, onProgress, onError );
+  scene.add(floor);
 }
 
 //set up the renderer for the oculous using THREE
