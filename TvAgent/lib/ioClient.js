@@ -1,4 +1,4 @@
-var socket = io.connect('http://129.21.208.59:8125',{secure:false});
+var socket = io.connect('http://129.21.208.59:8127',{secure:false});
 function openConnection(){
   socket.on('connect', function () {
     console.log('client connected');

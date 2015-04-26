@@ -29,7 +29,7 @@ function openConnection(){
   });
   //toggle color wheel
   socket.on('colorWheel',function(data){
-    if(data.colorWheel){
+    if(data){
       displayColorWheele();
     }else{
       hideColorWheele();
