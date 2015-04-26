@@ -25,7 +25,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             try
             {
-                Console.WriteLine("Test");
                 // Create a TcpClient. 
                 // Note, for this client to work you need to have a TcpServer  
                 // connected to the same address as specified by the server, port 
@@ -45,8 +44,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                 // Send the message to the connected TcpServer. 
                 stream.Write(data, 0, data.Length);
-                Console.WriteLine("Wrote to stream");
-                Console.WriteLine("Sent: {0}", message);
 
                 // Close everything.
                 
