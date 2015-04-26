@@ -33,11 +33,6 @@ io.on('connection',function(socket){
 
 });
 
-    socket.on('init',function(data){
-        receivedInit(data,socket);
-    });
-});
-
 var tcp_server = net.createServer(function(socket){
 
     socket.on('data', function (data) {
