@@ -9,13 +9,13 @@ window.addEventListener("load", function(){
 
 function fullScreen(){
   window.addEventListener("keypress", function(e) {
-      if (e.charCode == 'f'.charCodeAt(0)) {
-          if (renderCanvas.mozRequestFullScreen) {
-              renderCanvas.mozRequestFullScreen();
-          } else if (renderCanvas.webkitRequestFullscreen) {
-              renderCanvas.webkitRequestFullscreen();
-          }
+  if (e.charCode == 'f'.charCodeAt(0)) {
+      if (renderCanvas.mozRequestFullScreen) {
+        renderCanvas.mozRequestFullScreen();
+      } else if (renderCanvas.webkitRequestFullscreen) {
+        renderCanvas.webkitRequestFullscreen();
       }
+    }
   }, false);
 }
 
@@ -60,7 +60,7 @@ function initScene() {
 function initRenderer() {
   renderCanvas = document.getElementById("render-canvas");
   renderer = new THREE.WebGLRenderer({
-      canvas: renderCanvas,
+    canvas: renderCanvas,
   });
   renderer.setClearColor(0x555555);
   renderer.setSize(1280, 800, false);
@@ -75,6 +75,5 @@ function render() {
   camera.position.x = (Math.PI * 1.5) * Math.cos(degree);
   camera.lookAt(new THREE.Vector3(0,0,0));
   degree = (degree+0.01)%360;
-
   renderer.render( scene, camera );
 }
