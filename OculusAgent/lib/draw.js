@@ -5,7 +5,6 @@ color - the color of the line as hex
 */
 
 function drawLine(start, stop, color){
-
     //console.log("Drawing Start: " + start.x + " Stop: " + stop.x);
 
     var geometry = new THREE.Geometry();

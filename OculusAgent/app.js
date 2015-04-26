@@ -15,18 +15,18 @@ window.addEventListener("load", function(){
 
 //enables the vr rendering when you full screen the window
 function fullScreen(){
-  window.addEventListener("keypress", function(e) {
-      if (e.charCode == 'f'.charCodeAt(0)) {
-          if (renderCanvas.mozRequestFullScreen) {
-              renderCanvas.mozRequestFullScreen({
-                  vrDisplay: vrHMD
-              });
-          } else if (renderCanvas.webkitRequestFullscreen) {
-              renderCanvas.webkitRequestFullscreen({
-                  vrDisplay: vrHMD,
-              });
-          }
+window.addEventListener("keypress", function(e) {
+  if (e.charCode == 'f'.charCodeAt(0)) {
+    if (renderCanvas.mozRequestFullScreen) {
+      renderCanvas.mozRequestFullScreen({
+          vrDisplay: vrHMD
+      });
+      } else if (renderCanvas.webkitRequestFullscreen) {
+        renderCanvas.webkitRequestFullscreen({
+            vrDisplay: vrHMD,
+        });
       }
+    }
   }, false);
 }
 

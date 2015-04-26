@@ -9,11 +9,12 @@ function colorChange(rHandPos){
   for(var i=0;i<children.length;i++){
     var wrld_pos = children[i].getWorldPosition();
     //checks to see if the hand is inside one of the boxes on the golbal scale
-    if(rHandPos.x<wrld_pos.x+0.2 & rHandPos.x>wrld_pos.x-0.2 &
-     rHandPos.y<wrld_pos.y+0.2 & rHandPos.y>wrld_pos.y-0.2 &
-     rHandPos.z<wrld_pos.z+0.2 & rHandPos.z>wrld_pos.z-0.2){
-      console.log(children[i].material.color.getHexString());
-      sendColor(children[i].material.color.getHex);
+    if(rHandPos.x<wrld_pos.x+0.045 & rHandPos.x>wrld_pos.x-0.045 &
+     rHandPos.y<wrld_pos.y+0.045 & rHandPos.y>wrld_pos.y-0.045 &
+     rHandPos.z<wrld_pos.z+0.045 & rHandPos.z>wrld_pos.z-0.045){
+      sendColor(children[i].material.color.getHex());
+      hands.colorChange(children[i].material.color.getHex());
+      break;
     }
   }
 }
@@ -21,10 +22,10 @@ function colorChange(rHandPos){
 //Adds a color to the color box
 function colorWheelBox(x,y,z,color){
   var boxGeo = new THREE.Geometry();
-  boxGeo.vertices.push(new THREE.Vector3(-0.125,  0.125, 0.0));
-  boxGeo.vertices.push(new THREE.Vector3(0.125,  0.125, 0.0));
-  boxGeo.vertices.push(new THREE.Vector3(0.125,  -0.125, 0.0));
-  boxGeo.vertices.push(new THREE.Vector3(-0.125,  -0.125, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(-0.045,  0.045, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(0.045,  0.045, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(0.045,  -0.045, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(-0.045,  -0.045, 0.0));
   boxGeo.faces.push(new THREE.Face3(0,1,2));
   boxGeo.faces.push(new THREE.Face3(0,2,3));
 
@@ -45,10 +46,10 @@ function colorWheelBox(x,y,z,color){
 function addColorWheel(){
   //main box
   var colorBoxGeo = new THREE.Geometry();
-  colorBoxGeo.vertices.push(new THREE.Vector3(-0.3,  0.3, 0.0));
-  colorBoxGeo.vertices.push(new THREE.Vector3(0.3,  0.3, 0.0));
-  colorBoxGeo.vertices.push(new THREE.Vector3(0.3,  -0.3, 0.0));
-  colorBoxGeo.vertices.push(new THREE.Vector3(-0.3,  -0.3, 0.0));
+  colorBoxGeo.vertices.push(new THREE.Vector3(-0.1,  0.1, 0.0));
+  colorBoxGeo.vertices.push(new THREE.Vector3(0.1,  0.1, 0.0));
+  colorBoxGeo.vertices.push(new THREE.Vector3(0.1,  -0.1, 0.0));
+  colorBoxGeo.vertices.push(new THREE.Vector3(-0.1,  -0.1, 0.0));
   colorBoxGeo.faces.push(new THREE.Face3(0,1,2));
   colorBoxGeo.faces.push(new THREE.Face3(0,2,3));
 
@@ -60,23 +61,24 @@ function addColorWheel(){
   });
 
   colorBox = new THREE.Mesh(colorBoxGeo, colorBoxMaterial);
-  colorBox.position.set(0,0.35,0);
+  colorBox.position.set(0,0.25,0);
   scene.add(colorBox);
+  //camera.add(colorBox);
   rHandModel.add(colorBox);
 
-  var redBox = colorWheelBox(-0.15,0.15,0,0xFF0000);
+  var redBox = colorWheelBox(-0.05,0.05,0,0xFF0000);
   scene.add(redBox);
   colorBox.add(redBox);
 
-  var blueBox = colorWheelBox(0.15,0.15,0,0x0000FF);
+  var blueBox = colorWheelBox(0.05,0.05,0,0x0000FF);
   scene.add(blueBox);
   colorBox.add(blueBox);
 
-  var yellowBox = colorWheelBox(-0.15,-0.15,0,0xFFFF00);
+  var yellowBox = colorWheelBox(-0.05,-0.05,0,0xFFFF00);
   scene.add(yellowBox);
   colorBox.add(yellowBox);
 
-  var blackBox = colorWheelBox(0.15,-0.15,0,0x000000);
+  var blackBox = colorWheelBox(0.05,-0.05,0,0x000000);
   scene.add(blackBox);
   colorBox.add(blackBox);
 }
