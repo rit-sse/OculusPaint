@@ -12,7 +12,7 @@ function openConnection(){
   });
 
   socket.on('move',function(data){
-    controls.move(data.Torso);
+    controls.move(data[0].Torso);
     hands.moveHand(data.LHand,data.RHand);
   });
 
@@ -24,8 +24,8 @@ function openConnection(){
   });
 
   //calls the function to select a color with the lhand pos
-  socket.on('color',function(data){
-    colorChange(data.color.rhand);
+  socket.on('selectMenu',function(data){
+    colorChange(new THREE.Vector3(data[0],data[1],data[2]));
   });
   //toggle color wheel
   socket.on('colorWheel',function(data){

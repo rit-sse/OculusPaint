@@ -24,7 +24,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(60, 1280 / 800, 0.001, 100);
   scene = new THREE.Scene();
   scene.add(camera);
-  camera.position.z = 2;
+  camera.position.z = 1.5;
   camera.position.y = 1.5;
   camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -74,6 +74,6 @@ function render() {
   camera.position.z = (Math.PI * 1.5) * Math.sin(degree);
   camera.position.x = (Math.PI * 1.5) * Math.cos(degree);
   camera.lookAt(new THREE.Vector3(0,0,0));
-  degree = (degree+0.01)%360;
+  degree = (degree+0.005)%360;
   renderer.render( scene, camera );
 }

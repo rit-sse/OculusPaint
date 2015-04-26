@@ -22,7 +22,7 @@ THREE.HandTracking = function(){
   rHandModel = new THREE.Mesh(rGeo, rMat);
   scene.add(rHandModel);
 
-  this.moveHand = function (lHand, rHand){
+  this.moveHand = function (lHand, rHand,color){
     positionL.x = lHand.x;
     positionL.y = lHand.y;
     positionL.z = lHand.z;
@@ -30,6 +30,11 @@ THREE.HandTracking = function(){
     positionR.y = rHand.y;
     positionR.z = rHand.z;
   };
+
+  this.colorChange = function(color){
+    lHandModel.material.color.setHex(color);
+    rHandModel.material.color.setHex(color);
+  }
 
   this.update = function (){
     lHandModel.position.x = positionL.x;
