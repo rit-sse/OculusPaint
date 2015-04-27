@@ -1,6 +1,7 @@
 //set colorBox to golbal scope
 var colorBox;
-
+var _xPos = 0.09;
+var _yPos = 0.045;
 /*
 Takes in the postion of your left hand and sends a message with the color
 */
@@ -9,8 +10,8 @@ function colorChange(rHandPos){
   for(var i=0;i<children.length;i++){
     var wrld_pos = children[i].getWorldPosition();
     //checks to see if the hand is inside one of the boxes on the golbal scale
-    if(rHandPos.x<wrld_pos.x+0.09 & rHandPos.x>wrld_pos.x-0.09 &
-     rHandPos.y<wrld_pos.y+0.045 & rHandPos.y>wrld_pos.y-0.045){
+    if(rHandPos.x<wrld_pos.x+_xPos & rHandPos.x>wrld_pos.x-_xPos &
+     rHandPos.y<wrld_pos.y+_yPos & rHandPos.y>wrld_pos.y-_yPos){
       sendColor(children[i].material.color.getHex());
       hands.colorChange(children[i].material.color.getHex());
       break;
@@ -21,10 +22,10 @@ function colorChange(rHandPos){
 //Adds a color to the color box
 function colorWheelBox(x,y,z,color){
   var boxGeo = new THREE.Geometry();
-  boxGeo.vertices.push(new THREE.Vector3(-0.09,  0.045, 0.0));
-  boxGeo.vertices.push(new THREE.Vector3(-0.09,  -0.045, 0.0));
-  boxGeo.vertices.push(new THREE.Vector3(0.09,  -0.045, 0.0));
-  boxGeo.vertices.push(new THREE.Vector3(0.09,  0.045, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(-_xPos,  _yPos, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(-_xPos,  -_yPos, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(_xPos,  -_yPos, 0.0));
+  boxGeo.vertices.push(new THREE.Vector3(_xPos,  _yPos, 0.0));
   boxGeo.faces.push(new THREE.Face3(0,1,2));
   boxGeo.faces.push(new THREE.Face3(0,2,3));
 
