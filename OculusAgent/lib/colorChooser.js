@@ -1,7 +1,7 @@
 //set colorBox to golbal scope
 var colorBox;
 var _xPos = 0.09;
-var _yPos = 0.045;
+var _yPos = 0.05;
 /*
 Takes in the postion of your left hand and sends a message with the color
 */
@@ -45,22 +45,24 @@ function colorWheelBox(x,y,z,color){
 //adds the color wheel object to the scene
 function addColorWheel(){
   //main box
-  var colorBoxGeo = new THREE.Geometry();
-  colorBoxGeo.vertices.push(new THREE.Vector3(-0.1, 0.35, 0.0));
-  colorBoxGeo.vertices.push(new THREE.Vector3(-0.1, -0.35, 0.0));
-  colorBoxGeo.vertices.push(new THREE.Vector3(0.1,  -0.35, 0.0));
-  colorBoxGeo.vertices.push(new THREE.Vector3(0.1,  0.35, 0.0));
-  colorBoxGeo.faces.push(new THREE.Face3(0,1,2));
-  colorBoxGeo.faces.push(new THREE.Face3(0,2,3));
+  // var colorBoxGeo = new THREE.Geometry();
+  // colorBoxGeo.vertices.push(new THREE.Vector3(-0.1, 0.35, 0.0));
+  // colorBoxGeo.vertices.push(new THREE.Vector3(-0.1, -0.35, 0.0));
+  // colorBoxGeo.vertices.push(new THREE.Vector3(0.1,  -0.35, 0.0));
+  // colorBoxGeo.vertices.push(new THREE.Vector3(0.1,  0.35, 0.0));
+  // colorBoxGeo.faces.push(new THREE.Face3(0,1,2));
+  // colorBoxGeo.faces.push(new THREE.Face3(0,2,3));
 
-  var colorBoxMaterial = new THREE.MeshBasicMaterial({
-    color: 0xFFFFFF,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: 0.5
-  });
+  // var colorBoxMaterial = new THREE.MeshBasicMaterial({
+  //   color: 0xFFFFFF,
+  //   side: THREE.DoubleSide,
+  //   transparent: true,
+  //   opacity: 0.5
+  // });
 
-  colorBox = new THREE.Mesh(colorBoxGeo, colorBoxMaterial);
+  //colorBox = new THREE.Mesh(colorBoxGeo, colorBoxMaterial);
+  var colorBox = new THREE.Object3D();
+
   colorBox.position.set(0.25,0,0);
   scene.add(colorBox);
   //camera.add(colorBox);

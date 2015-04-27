@@ -1,4 +1,4 @@
-var linesDrawn[]
+var linesDrawn = [];
 
 /*
 start - the start possition for a line as a vector3
