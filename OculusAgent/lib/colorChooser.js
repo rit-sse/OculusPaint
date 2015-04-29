@@ -45,7 +45,7 @@ function colorWheelBox(x,y,z,color){
 //adds the color wheel object to the scene
 function addColorWheel(){
 
-  var colorBox = new THREE.Object3D();
+  colorBox = new THREE.Object3D();
   colorBox.position.set(0.25,0,0);
   scene.add(colorBox);
   rHandModel.add(colorBox);
