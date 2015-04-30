@@ -12,7 +12,7 @@ function openConnection(){
   });
 
   socket.on('move',function(data){
-    controls.move(data[0].Torso);
+    controls.move(data.Torso);
     hands.moveHand(data.LHand,data.RHand);
   });
 
@@ -39,5 +39,6 @@ function openConnection(){
 
 //helper function to send the new color to the server
 function sendColor(color){
+  console.log("color sent: "+color);
   socket.emit('color',color);
 }

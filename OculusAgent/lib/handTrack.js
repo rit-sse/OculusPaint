@@ -22,7 +22,7 @@ THREE.HandTracking = function(){
   rHandModel = new THREE.Mesh(rGeo, rMat);
   scene.add(rHandModel);
 
-  this.moveHand = function (lHand, rHand,color){
+  this.moveHand = function (lHand,rHand){
     positionL.x = lHand.x;
     positionL.y = lHand.y;
     positionL.z = lHand.z;

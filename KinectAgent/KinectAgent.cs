@@ -50,12 +50,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         bool hasConnection;
         string server = "mycroft.ad.sofse.org";
 
+        bool connectToPlayer = false;
+
         public KinectAgent()
         {
             MyTCP_Client tcp = new MyTCP_Client();
             this.tcp = tcp;
             this.hasConnection = true;
-            StartUp();
         }
 
         /// <summary>
@@ -126,8 +127,6 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 this.bodyFrameReader.FrameArrived += this.Reader_FrameArrived;
             }
-
-            Console.WriteLine("Got to end");
         }
 
         /// <summary>
@@ -137,7 +136,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// <param name="e">event arguments</param>
         private void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
-            //Console.WriteLine("Frame Arrived");
+            connectToPlayer = true;
             bool dataReceived = false;
 
             using (BodyFrame bodyFrame = e.FrameReference.AcquireFrame())
@@ -156,7 +155,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     dataReceived = true;
                 }
             }
-            
+
             if (dataReceived)
             {
 
@@ -168,20 +167,20 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (body.IsTracked)
                 {
                     IReadOnlyDictionary<JointType, Joint> joints = body.Joints;
-                    this.SendBodyParts(joints,body);
+                    this.SendBodyParts(joints, body);
 
                 }
-                    
-                
+
+
             }
         }
 
-       private void SendBodyParts(IReadOnlyDictionary<JointType, Joint> joints,Body body){
-           Console.WriteLine("Sending BodyParts");
+        private void SendBodyParts(IReadOnlyDictionary<JointType, Joint> joints, Body body)
+        {
             bool status = true;
-            BodyPart leftHand = this.GrabJoint(joints, JointType.HandLeft,out status,body);
-            BodyPart rightHand = this.GrabJoint(joints, JointType.HandRight, out status,body);
-            BodyPart torso = this.GrabJoint(joints, JointType.Neck, out status,body);
+            BodyPart leftHand = this.GrabJoint(joints, JointType.HandLeft, out status, body);
+            BodyPart rightHand = this.GrabJoint(joints, JointType.HandRight, out status, body);
+            BodyPart torso = this.GrabJoint(joints, JointType.Neck, out status, body);
 
             if (status)
             {
@@ -203,10 +202,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        private BodyPart GrabJoint(IReadOnlyDictionary<JointType, Joint> joints, JointType jointType, out bool status, Body body) {
+        private BodyPart GrabJoint(IReadOnlyDictionary<JointType, Joint> joints, JointType jointType, out bool status, Body body)
+        {
             CameraSpacePoint joint = joints[jointType].Position;
             String handState = "true";
-            if (jointType == JointType.HandRight || jointType == JointType.HandLeft)
+            if (jointType == JointType.HandRight)
             {
                 switch (body.HandRightState)
                 {
@@ -220,7 +220,20 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                 }
             }
-            
+            if (jointType == JointType.HandLeft)
+            {
+                switch (body.HandLeftState)
+                {
+                    case HandState.Closed:
+                        handState = "closed";
+                        break;
+                    case HandState.Open:
+                        handState = "open";
+                        break;
+
+
+                }
+            }
             BodyPart bP = new BodyPart(joint.X, joint.Y, joint.Z, handState);
             status = true;
             if (joints[JointType.HandTipLeft].TrackingState != TrackingState.Tracked)
@@ -252,13 +265,51 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             return reconnected;
         }
 
+        public void Run()
+        {
+            Console.WriteLine("Star OculusPaint\n Press Enter Y to start a run or N to Exit.");
+            String line = null;
+            line = Console.ReadLine();
+            while (line != "N" && line != "n")
+            {
+                StartUp();
+                DateTime start = DateTime.Now;
+                while (!connectToPlayer)
+                {
+                    if (start.AddSeconds(30) < DateTime.Now)
+                    {
+                        break;
+                    }
+                }
+                if (connectToPlayer)
+                {
+                    Console.WriteLine("Press X or x to stop");
+                    while (hasConnection )
+                    {
+                        line = Console.ReadLine();
+                        if (line == "X" || line == "x")
+                        {
+                            break;
+                        }
+                    }
+                }
+                Console.WriteLine("Press Enter Y to start a run or N to Exit.");
+                while (line != "Y" && line != "y" && line != "N" && line != "n")
+                {
+                    line = Console.ReadLine();
+                }
+            }
+            line = Console.ReadLine();
+        }
+
         static void Main(string[] args)
         {
             KinectAgent sg = new KinectAgent();
-            while (sg.hasConnection) ;
+            sg.Run();
         }
 
     }
 
-    
+
 }
+ 

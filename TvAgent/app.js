@@ -28,28 +28,7 @@ function initScene() {
   camera.position.y = 1.5;
   camera.lookAt(new THREE.Vector3(0,0,0));
 
-  var segments = 8;
-
-  var geoFloor = new THREE.PlaneGeometry(100, 100, segments, segments);
-  var matEven = new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF
-  });
-  var matOdd = new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF
-  });
-
-  var materials = [matEven, matOdd];
-  var i;
-
-  for( i = 0; i<segments*segments; i ++ ) {
-      var k = i * 2;
-      geoFloor.faces[ k ].materialIndex = i % 2;
-      geoFloor.faces[ k + 1 ].materialIndex = i % 2;
-  }
-
-
-  var floor = new THREE.Mesh(geoFloor, new THREE.MeshFaceMaterial(materials));
-
+  floor = checkerboard();
   floor.position.y = -1.9;//make it on the ground
   floor.rotation.x = -Math.PI/2; //rotate it to the ground
 
