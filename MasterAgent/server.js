@@ -12,6 +12,7 @@ server.listen(8125);
 var oculusAgents = [];
 var kinectAgents = [];
 var oculus = null;
+var tv = null;
 var lastPoint = null;//[x,y,z]
 var color = 0x000000;
 var rHandLastState = 'closed';
@@ -88,15 +89,18 @@ receivedData = function(data){
                 if(lastPoint == null){
                   lastPoint = newPoint;
                 }else{
- 		  io.to('oculusPaintRoom').emit('draw',[lastPoint,newPoint,color]);
+                  
+                  io.to('oculusPaintRoom').emit('draw',[lastPoint,newPoint,color]);
 		  if(tv != null){
                       io.to('oculusPaintRoom').emit('draw',[lastPoint,newPoint,color]);
 		  }
                 }
 		
             }else if(lHandState == 'open'){
+	      
 	      if(rHandState == 'open'){
-                  io.to('oculusPaintRoom').emit('selectMenu',newPoint);
+                  
+	          io.to('oculusPaintRoom').emit('selectMenu',newPoint);
 	      }
 	      io.to('oculusPaintRoom').emit('colorWheel',true);
 	    }else{
